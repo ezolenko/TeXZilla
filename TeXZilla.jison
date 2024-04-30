@@ -1023,16 +1023,24 @@ right
   }
   ;
 
+/* Optional empty enclosure */
+emptyEnclosure
+  : left right {
+    $$ = newTag("mrow", [$1, $2]);
+  }
+  ;
+
 /* closed terms */
 closedTerm
   : "{" "}" { $$ = newTag("mrow"); }
   | "{" styledExpression "}" { $$ = newMrow($2); }
+  | emptyEnclosure
   | BIG OPFS {
     $$ = newTag("mo", $2, {"maxsize": "1.2em", "minsize": "1.2em"});
   }
   | BBIG OPFS {
     $$ = newTag("mo", $2, {"maxsize": "1.8em", "minsize": "1.8em"});
-  } 
+  }
   | BIGG OPFS {
     $$ = newTag("mo", $2, {"maxsize": "2.4em", "minsize": "2.4em"});
   }
